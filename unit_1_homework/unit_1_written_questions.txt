@@ -1,0 +1,53 @@
+Written Questions for Unit 1
+03.25.2019
+
+Answer all the questions
+1. What is a Tuple, and how it is different from a List?
+2. What is a variable in Python?
+3. How will you convert a string to a list in python?
+4. What is the purpose of ** operator?
+5. Give the object, name = "john54" How will you capitalize the first letter of the string?
+6. Given the object, name = "john54" How will you check in a string that all characters are alphanumeric?
+
+Responses:
+
+1. What is a Tuple, and how it is different from a List?
+
+Answer: A tuple is an object that contains any number of unique items of data, which can mix and match data types.
+Unlike a list, a Tuple is immutable, meaning the items within it cannot be edited.
+A list can have items removed from the middle of it, its values can be manipulated or replaced.
+A tuple is initiated by parentheses () instead of brackets.
+
+
+2. What is a variable in Python?
+
+Answer:  A variable is  place to store temporary data in Python.
+To create variable, one gives it a name and gives it data, which could be empty.
+A variable name now refers to an object, its data. The location in memory of that value of that data can be called.
+Variables, in python, are immutable, the value of their content cannot be changed.
+If a new value is assigned to the variable, a new location in memory is assigned for that value of the variable.
+
+
+3. How will you convert a string to a list in python?
+
+Answer: Strings are immutable, they cannot be changed.
+One can apply methods or functions to them to get temporary results but the string cannot be changed.
+One could create a list that contains the values fo data in a string, but the string would exist unchanged.
+One could identify the data items in a string, by index location, and amend them to the end of the list.
+
+4. What is the purpose of ** operator?
+
+Answer: The ** operator in python is an exponent, or a power.  It functions the same as the ^ operator in other languages.
+
+5. Give the object, name = "john54" How will you capitalize the first letter of the string?
+
+Answer: One cannot permanently change the contents of the string, as they are immutable.
+One can temporarily generate the capitalized value of the string using the method .capitalize()
+it would look like this: name.capitalize()
+and would return: 'John54'
+
+6. Given the object, name = "john54" How will you check in a string that all characters are alphanumeric?
+
+Answer: Python has a build in method for validating if the contents of a string are all alphanumeric: .isalnum()
+One can check if the contents of the string, name, is alphanumeric by giving: name.isalnum()
+and would return: True, because it is
