@@ -1,6 +1,8 @@
 """
 PRACTICE
 
+GOAL IS TO USE A WHILE LOOP with IF LOOP
+
 # list.append()
 # list.pop() removes the last item
 # list.remove(value) removes the item specified.
@@ -90,6 +92,7 @@ while True:  #start while loop to cycle through users shopping cart
         print("Thank you for your items") #thank you statement
         print(item) #check for receipt of all items
         print(value) #check for receipt of all values
+
         for i in range(len(value)): #begin loop to total the value of all items and discounts
             subtotal += value[i] #sum items in value
         print("Subtotal balance: ", subtotal) #show customer the subtotal
