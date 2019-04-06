@@ -43,3 +43,4 @@ area_rectangle = length_rectangle * height_rectangle
 # give the user back the value for the area of their rectangle.
 
 print ("For a rectangle with a height of", height_rectangle, "cm and a length of ", length_rectangle, "cm, the area is:", area_rectangle, "cm.")
+ 
