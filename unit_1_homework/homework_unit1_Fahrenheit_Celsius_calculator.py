@@ -38,7 +38,6 @@ degrees_celsius = float
 
 degrees_fahrenheit = float
 
-
 #create a variable for the multiplying factor the conversion at boiling, 180/100, or 9/5, or 1.8, this is a constant.
 
 boiling_pt_factor = 100/180

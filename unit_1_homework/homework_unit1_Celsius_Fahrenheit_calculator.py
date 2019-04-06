@@ -53,4 +53,3 @@ degrees_fahrenheit = (degrees_celsius * boiling_pt_factor) + freezing_pt_factor
 # display back to the user the original input in celsius and the equivalent value in fahrenheit.
 
 print(round(degrees_celsius, 1),"degrees celsius is equivalent to ", round(degrees_fahrenheit,1), "degrees fahrenheit.")
-

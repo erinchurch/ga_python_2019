@@ -50,4 +50,4 @@ and would return: 'John54'
 
 Answer: Python has a build in method for validating if the contents of a string are all alphanumeric: .isalnum()
 One can check if the contents of the string, name, is alphanumeric by giving: name.isalnum()
-and would return: True, because it is
+and would return: True, because it is.

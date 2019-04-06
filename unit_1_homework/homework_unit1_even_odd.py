@@ -12,3 +12,4 @@ if user_input % 2 == 0:
     print("The value you provided is an even number.")
 else:
     print("The value you provided is an odd number.")
+
