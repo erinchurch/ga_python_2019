@@ -173,7 +173,33 @@ while True:
     r = ""  # user entered item to remove
     p = float  # item price
     d_temp = {}  # construct dictionary key-value pair
+    edit_cart = ["remove", "Remove"]
+    stop_cart = ["Done", "done"]
     u = input("Please enter the name of the item you want to add to your cart.\t If you want to remove an item, type Remove.\n If are finished with your cart, type Done.\t")
+    if u in edit_cart:
+        print("Here is what is in your cart so far:\t", cart)
+        r = input("Please type the name of the item you wish to remove.\t")
+        print("This item will be removed.", r, cart[r])
+        cart.pop(r)
+        print("updated cart:\t", cart)
+#        print("done with items.", cart)
+#        exit()
+    elif u in stop_cart:
+        print("Your final shopping cart:\t", cart)
+        exit()
+    elif u not in edit_cart:
+        p = float(input("Please enter the price of the item you wish to add.\t"))
+        d_temp[u] = p
+        cart.update(d_temp)
+        print("Your cart:\t", cart)
+
+print("final cart.", cart)
+
+"""
+
+
+      
+
     if u != "Remove" or u != "remove" or u != "Done" or u != "done":
 #            u = input("Please type name of the new cart item.\t") #get item name
         p = float(input("Please enter the price of the new cart item.\t")) #get price of item
@@ -196,4 +222,5 @@ while True:
         exit()
     else:
         print("Please re-enter choice, invalid entry.\t")
-rint(cart)
+
+"""
