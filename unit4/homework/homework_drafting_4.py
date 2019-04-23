@@ -81,7 +81,7 @@ PSEUDO CODE
 #prints new balances, leaves
 """
 
-class ConfirmClient: #class to verify the identify of the client attempting to user ATM
+class ATMConfirmClient: #class to verify the identify of the client attempting to user ATM
     def __init__(self):
         # dictionary of client accounts and their personal identification number (pin)
         self.accounts = {
@@ -90,7 +90,7 @@ class ConfirmClient: #class to verify the identify of the client attempting to u
         103: {"pin": 3456, },
         }
 
-    def check_account(self, kwargs): #method to confirm existance of the client
+    def atm_check_account(self, kwargs): #method to confirm existance of the client
         self.__init__(self) #invoke account dictionary
         d_user = kwargs  #collect user provided data
         user_account = d_user["user_account"]  #extract data provided by user
@@ -120,13 +120,13 @@ class ConfirmClient: #class to verify the identify of the client attempting to u
             d_confirm["msg_pin"] = msg_pin  #append message for transaction log
 
         else:  #handling of desired outcome
-            d_pin = ConfirmClient.check_pin(self, d_user, d_in_pin)  #call check_pin method for  pin validation
+            d_pin = ATMConfirmClient.atm_check_pin(self, d_user, d_in_pin)  #call check_pin method for  pin validation
             d_confirm["flag_account"] = flag_account  #append results of account validation
             d_confirm["msg_account"] = msg_account  #append message for transaction log
             d_confirm.update(d_pin)  #append results from check_in method
         return d_confirm #return confirmation flag
 
-    def check_pin(self, d_user, kwargs):  #method to confirm the client personal identification number "pin"
+    def atm_check_pin(self, d_user, kwargs):  #method to confirm the client personal identification number "pin"
         user_account = d_user["user_account"]  #extract data provided by user
         user_pin = d_user["user_pin"]  #extract data provider by user
         d_temp = kwargs
@@ -149,6 +149,274 @@ class ConfirmClient: #class to verify the identify of the client attempting to u
         d_temp_response["flag_pin"]=flag_pin  #create key:value pair for method response
         d_temp_response["msg_pin"]=msg_temp   #create key:value pair for method response
         return d_temp_response #return confirmation of personal identification number
+
+
+class ConfirmBankTeller: #class to verify the identify of the client attempting to user ATM
+    def __init__(self):
+        # dictionary of client accounts and their personal identification number (pin)
+        self.users = {
+            "teller1": {"password": "teller1",},
+            "bank1": {"password": "bank1",},
+        }
+        self.account_details = {
+            101: {"checking": 501,
+                  501: 4500.0,
+                  "saving": 601,
+                  601: 5000.0,
+                  "name": "Erin Church",
+                  "username": "erinchurch",
+                  "card_checking": 101,
+                  "card_saving":101,
+                  "pin": 1234,
+                  },
+            102: {"checking": 502,
+                  502: 3500.0,
+                  "saving": 602,
+                  602: 12000.0,
+                  "name": "Ronald Williams",
+                  "username": "ronaldwilliams",
+                  "card_checking": 102,
+                  "card_saving":102,
+                  "pin": 2345,
+                  },
+            103: {"checking": 503,
+                  503: 1200.0,
+                  "saving": 603,
+                  603: 2300.0,
+                  "name": "Dirk Church",
+                  "username": "dirkchurch",
+                  "card_checking": 103,
+                  "card_saving":103,
+                  "pin":3456
+                  },
+        }
+
+        self.subaccount_account = {501:101,
+                                   601:101,
+                                   502:102,
+                                   602:102,
+                                   503:103,
+                                   603:103,}
+
+    def check_user(self, kwargs): #method to confirm existance of the client
+        self.__init__(self) #invoke account dictionary
+
+        #local variables
+        d_temp = {}
+        msg_user = ""
+        msg_password = ""
+        flag_user = bool
+        flag_password = bool
+        d_in_password = {}
+        d_pwd = {}
+
+        try:
+            d_user = kwargs  # collect user provided data
+            user_account = d_user["username"]  # extract data provided by user
+
+        except KeyError:
+            msg_user = "Issue experienced with log in data, user not validated"
+            flag_user = None
+            msg_password = "Issue experienced with log in data, password not validated"
+            flag_password = None
+            d_temp["check_user_message"] = msg_user
+            d_temp["flag_user"] = flag_user
+            d_temp["check_password_message"] = msg_password
+            d_temp["flag_password"] = flag_password
+
+            return d_temp
+        else:
+            for keys, values in self.users.items(): #look in user dictionary
+                if keys == user_account:
+                    d_in_password[keys] = values
+                    msg_user = "User name confirmed."
+                    flag_user = True
+                    d_temp["check_user_message"] = msg_user
+                    d_temp["flag_user"] = flag_user
+                    print(d_temp)
+                    print(d_in_password)
+            try:
+                if flag_user != True:
+                    raise TypeError
+
+            except TypeError:
+
+                msg_user = "User name could not confirmed."
+                flag_user = False
+                msg_password = "User name not confirmed, password not validated"
+                flag_password = False
+                d_temp["check_user_message"] = msg_user
+                d_temp["flag_user"] = flag_user
+                d_temp["check_password_message"] = msg_password
+                d_temp["flag_password"] = flag_password
+                print(d_temp)
+                return d_temp
+
+            else:
+
+                if flag_user == True:
+                    d_pwd = ConfirmBankTeller.check_password(self, d_user, d_in_password)
+                    d_temp.update(d_pwd)
+                    return d_temp
+
+
+    def check_password(self, kwargs_1, kwargs_2):
+        #local variables
+        msg = ""
+        flag_password = bool
+        d_temp = {}
+        try: #check method input variables
+            d_user = kwargs_1  # collect user provided data
+            user_account = d_user["username"]  # extract data provided by user
+            user_pwd = d_user["password"]  # extract data provided by user
+            d_password_confirm = kwargs_2
+        except KeyError:  #method action for incomplete or invalid input
+            msg_password = "Issue experienced with log in data, password not validated"
+            flag_password = None
+            d_temp["check_password_message"] = msg_password
+            d_temp["flag_password"] = flag_password
+            return d_temp
+
+        else:
+            for keys, values in d_password_confirm.items():
+                if keys == user_pwd:
+                    for k, v in values.items():
+                        if v == user_pwd:
+                            msg_password = "User password validated"
+                            flag_password = True
+                            d_temp["check_password_message"] = msg_password
+                            d_temp["flag_password"] = flag_password
+                            print(d_temp)
+                            return d_temp
+            try:
+                if flag_password != True:
+                    raise TypeError
+
+            except TypeError:
+                msg_password = "User password could not be validated."
+                flag_password = False
+                d_temp["check_password_message"] = msg_password
+                d_temp["flag_password"] = flag_password
+                print(d_temp)
+                return d_temp
+
+
+    def resolve_account(self, kwargs): #method to confirm existance of the client
+        self.__init__(self) #invoke account dictionary
+        # local variables
+        msg = ""
+        flag_account = bool
+        flag_checking = bool
+        flag_saving = bool
+
+        d_temp = {} #placholder for results of check_account method
+        d_complete = {}
+
+        try:
+            d_user = kwargs
+            account = d_user["account"]
+            type = d_user["type"]
+
+        except KeyError:
+            msg = "Issue experienced with input data."
+            flag_account = None
+            d_temp["check_account_message"] = msg
+            d_temp["flag_account"] = flag_account
+            return d_temp
+
+        else:
+            d_temp["user_input_account"] = account
+            d_temp["user_input_type"] = type
+
+            if type == "main":
+                d_temp["client_account"] = account
+                print(d_temp)
+            elif type == "checking":
+                d_temp["sub_account_type"] = type
+                d_temp["sub_account_checking"] = account
+                for k, v in self.subaccount_account.items():
+                    if k == account:
+                        d_temp["flag_checking"] = True
+                        d_temp["client_account"] = v
+                        print(d_temp)
+            elif type == "saving":
+                d_temp["sub_account_type"] = type
+                d_temp["sub_account_saving"] = account
+                for k, v, in self.subaccount_account.items():
+                    if k == account:
+                        d_temp["flag_savings"] = True
+                        d_temp["client_account"] = v
+                        print(d_temp)
+
+            try:
+                if flag_checking != True or flag_savings != True:
+                    raise TypeError
+
+            except TypeError:
+                d_complete = ConfirmBankTeller.complete_account(self, d_temp)
+                print(d_complete)
+                return d_temp
+
+            else:
+                try:
+                    if flag_saving != True:
+                        raise TypeError
+
+                except TypeError:
+                    d_complete = ConfirmBankTeller.complete_account(self, d_temp)
+                    print(d_complete)
+                    return d_temp
+
+
+
+
+
+    def complete_account(self, kwargs):
+        self.__init__(self)
+        # local variables
+        msg = ""
+        account = 0
+        sub_account_type = ""
+        flag_account = bool
+        flag_checking = bool
+        flag_saving = bool
+        d_input = kwargs
+        d_temp = {}  # placholder for results of check_account method
+
+        try:
+            input_account =  d_input["user_input_account"]
+            input_type = d_input["user_input_type"]
+
+        except ValueError:
+            msg = "Issue experienced with input data."
+            d_temp = msg
+
+        else:
+
+            if input_type == "checking":
+                for keys, values in self.account_details.items():
+                    if keys == input_type:
+                        for k, v in values.items():
+                            if k == "saving":
+                                d_temp["flag_saving"] = True
+                                d_temp["sub_account_saving"] = v
+                                return d_temp
+                                print(d_temp)
+            elif input_type == "saving":
+                for keys, values in self.account_details.items():
+                    if keys == input_type:
+                        for k, v, in values.items():
+                            if k == "checking":
+                                d_temp["flag_checking"] = True
+                                d_temp["sub_account_checking"] = v
+                                return d_temp
+                                print(d_temp)
+
+
+
+
+    def check_sub_account(self, d_user, kwargs):  #method to confirm the client personal identification number "pin"
+        pass
 
 class ServiceSelection: #class to identify what type of transaction the client wanted to do.
 
@@ -186,18 +454,24 @@ class Transactions: #class for all transaction types supported
                   "saving": 601,
                   601: 5000.0,
                   "name": "Erin Church",
+                  "username":"erinchurch",
+                  "account_card":101,
                   },
             102: {"checking": 502,
                   502: 3500.0,
                   "saving": 602,
                   602: 12000.0,
                   "name": "Ronald Williams",
+                  "username": "ronaldwilliams",
+                  "account_card": 102,
                   },
             103: {"checking": 503,
                   503: 1200.0,
                   "saving": 603,
                   603: 2300.0,
                   "name": "Dirk Church",
+                  "username": "dirkchurch",
+                  "account_card": 103,
                   },
         }
         #class level dictionary of all transaction history
@@ -235,7 +509,184 @@ class Transactions: #class for all transaction types supported
         }
 
 
-    def Transaction_Calls(self, user, tran):
+    def teller_transaction_calls(self, user, tran):
+        account = user["user_account"]
+        tran = tran["tran_type"]
+        if tran == "D": #should add additional logic to help prevent failures and illogical values
+            t = Transactions.deposit_funds(self, account) #call transaction method for depositing funds into an account
+            self.tran_history[5.1] = user
+            self.tran_history[5.2] = tran
+            self.tran_history[5.3] = t
+            print(self.tran_history.items())
+            t_msg = t["deposit_message"]
+            print(t_msg)  # confirm transaction to user
+            try:
+                t_1 = t["sub_account_balance_begin"]
+                t_2 = t["transaction_amount"]
+                t_3 = t["sub_account_balance_end"]
+            except KeyError:
+                print("Transaction issue, please escalate.")
+                #insert a system alert to notify the Bank to investigate any issues
+            else:
+                print("The account balance before deposit:\t", t_1) #confirm transactiont to user
+                print("The deposit amount:\t", t_2) #confirm transactiont to user
+                print("The account balance after deposit:\t", t_3) #confirm transactiont to user
+        elif tran == "C": #should add additional logic to help prevent failures and illogical values
+            t = Transactions.check_balance(self, account) #call transaction method to check balances
+            self.tran_history[3.1] = user  #append transaction history to main transaction history dictionrary
+            self.tran_history[3.2] = tran  #append transaction history to main transaction history dictionrary
+            self.tran_history[3.3] = t  #update transaction history with contents of checking account balances
+            print(t)  # returns the account numbers and balance
+            print(self.tran_history.items())
+
+            try:
+                t_msg1 = t["check_balance_message"]
+                t_msg2 = t["checking_balance_message"]
+                t_msg3 = t["saving_balance_message"]
+                t_bal1 = t["checking_balance_amount"]
+                t_bal2 = t["saving_balance_amount"]
+
+                print(t_msg1)
+                print(t_msg2)
+                print(t_msg3)
+                print("Available Funds in Checking:\t", t_bal1)
+                print("Available Funds in Savings:\t", t_bal2)
+
+            except KeyError:
+
+                try:
+                    t_msg1 = t["check_balance_message"]
+                    t_msg2 = t["checking_balance_message"]
+                    t_bal1 = t["checking_balance_amount"]
+                    print(t_msg1)
+                    print(t_msg2)
+                    print("Available Funds in Checking:\t", t_bal1)
+
+                except KeyError:
+
+                    try:
+                        t_msg1 = t["check_balance_message"]
+                        t_msg3 = t["saving_balance_message"]
+                        t_bal2 = t["saving_balance_amount"]
+                        print(t_msg1)
+                        print(t_msg3)
+                        print("Available Funds in Savings:\t", t_bal2)
+
+                    except KeyError:
+                        print("Technical issues accessing account information, please escalate.")
+        elif tran == "W": #should add additional logic to help prevent failures and illogical values
+            s = Transactions.check_funds(self, account) #method call, confirm client has sufficient funds
+            t = Transactions.withdraw_funds(self, account, s)  # method call to complete the withdrawal
+            self.tran_history[6] = user  # append transaction history to main transaction history dictionary
+            self.tran_history[6.1]= tran  # append transaction history to main transaction history dictionary
+            self.tran_history[6.2] = s  # append transaction history to main transaction history dictionary
+            self.tran_history[6.3]= t # append transaction history to main transaction history dictionary
+            try:
+                s_msg = s["check_funds_message"]
+                s_tran = s["tran_amount"]
+                t_msg = t["withdrawal_message"]
+                t_beg = t["withdrawal_begin_balance"]
+                t_end = t["withdrawal_end_balance"]
+            except KeyError:
+                print("Issue with transaction, please escalate.")
+                #insert a system alert for the bank to investigate any issues with the application
+            else:
+                print(s_msg) #user notification
+                print("Withdrawal amount requested:\t", s_tran) #user notification
+                print(t_msg) #user notification
+                print("Initial account balance:\t", t_beg) #user notification
+                print("Ending account balance:\t", t_end) #user notification
+                print(self.tran_history.items()) #developer check
+        elif tran == "T": #should add additional logic to help prevent failures and illogical values
+
+            s = Transactions.check_funds(self, account) #method call to confirm client has sufficient fund
+            u = Transactions.transfer_account(self, s) #method call to confirm destination account
+            t = Transactions.transfer_withdraw(self, account, s, u) #method call to withdrawl funds from client account
+            v = Transactions.transfer_deposit(self, s, u) #method call to deposit transfer amount in destination account
+            self.tran_history[8] = user  # append transaction history to main transaction history dictionary
+            self.tran_history[8.1]= tran  # append transaction history to main transaction history dictionary
+            self.tran_history[8.2] = s  # append transaction history to main transaction history dictionary
+            self.tran_history[8.3]= u # append transaction history to main transaction history dictionary
+            self.tran_history[8.4] = t  # append transaction history to main transaction history dictionary
+            self.tran_history[8.5] = v  # append transaction history to main transaction history dictionary
+
+            try:
+                s_msg = s["check_funds_message"]
+                s_tran = s["tran_amount"]
+                u_msg = u["transfer_account_message"]
+                t_msg = t["transfer_withdraw_message"]
+                t_beg = t["transfer_withdraw_begin_balance"]
+                t_end = t["transfer_withdraw_end_balance"]
+                v_msg = v["transfer_deposit_message"]
+                v_beg = v["transfer_deposit_begin_balance"]
+                v_end = v["transfer_deposit_end_balance"]
+                print(s_msg) #user notification
+                print("Transfer amount requested:\t", s_tran) #user notification
+                print(u_msg) #user notification
+                print(t_msg) #user notification
+                print("Initial client account balance:\t", t_beg) #user notification
+                print("Ending client account balance:\t", t_end) #user notification
+                print(v_msg) #user notification
+                print("Initial transfer account balance:\t", t_beg)  # user notification
+                print("Ending transfer account balance:\t", t_end)  # user notification
+
+
+            except KeyError:
+                s_msg = s["check_funds_message"]
+                s_tran = s["tran_amount"]
+                u_msg = u["transfer_account_message"]
+                t_msg = t["transfer_withdraw_message"]
+                v_msg = v["transfer_deposit_message"]
+                print(s_msg) #user notification
+                print("Transfer amount requested:\t", s_tran) #user notification
+                print(u_msg) #user notification
+                print(t_msg)  # user notification
+                print(v_msg)  # user notification
+
+            else:
+                print("Issue with transaction, please escalate")
+                #insert a system alert for the bank to investigate any issues with the application
+
+
+    def bank_transaction_calls(self, user, tran):
+        account = user["user_account"]
+        tran = tran["tran_type"]
+        if tran == "D": #should add additional logic to help prevent failures and illogical values
+            t = Transactions.deposit_funds(self, account) #call transaction method for depositing funds into an account
+            self.tran_history[5.1] = user
+            self.tran_history[5.2] = tran
+            self.tran_history[5.3] = t
+            print(self.tran_history.items())
+        elif tran == "C": #should add additional logic to help prevent failures and illogical values
+            t = Transactions.check_balance(self, account) #call transaction method to check balances
+            self.tran_history[3.1] = user  #append transaction history to main transaction history dictionrary
+            self.tran_history[3.2] = tran  #append transaction history to main transaction history dictionrary
+            self.tran_history[3.3] = t  #update transaction history with contents of checking account balances
+            print(self.tran_history.items())
+        elif tran == "W": #should add additional logic to help prevent failures and illogical values
+            s = Transactions.check_funds(self, account) #method call, confirm client has sufficient funds
+            t = Transactions.withdraw_funds(self, account, s)  # method call to complete the withdrawal
+            self.tran_history[6] = user  # append transaction history to main transaction history dictionary
+            self.tran_history[6.1]= tran  # append transaction history to main transaction history dictionary
+            self.tran_history[6.2] = s  # append transaction history to main transaction history dictionary
+            self.tran_history[6.3]= t # append transaction history to main transaction history dictionary
+            print(self.tran_history.items()) #developer check
+        elif tran == "T": #should add additional logic to help prevent failures and illogical values
+
+            s = Transactions.check_funds(self, account) #method call to confirm client has sufficient fund
+            u = Transactions.transfer_account(self, s) #method call to confirm destination account
+            t = Transactions.transfer_withdraw(self, account, s, u) #method call to withdrawl funds from client account
+            v = Transactions.transfer_deposit(self, s, u) #method call to deposit transfer amount in destination account
+            self.tran_history[8] = user  # append transaction history to main transaction history dictionary
+            self.tran_history[8.1]= tran  # append transaction history to main transaction history dictionary
+            self.tran_history[8.2] = s  # append transaction history to main transaction history dictionary
+            self.tran_history[8.3]= u # append transaction history to main transaction history dictionary
+            self.tran_history[8.4] = t  # append transaction history to main transaction history dictionary
+            self.tran_history[8.5] = v  # append transaction history to main transaction history dictionary
+            print(self.tran_history.items())
+
+
+    def atm_transaction_calls(self, user, tran):
         account = user["user_account"]
         tran = tran["tran_type"]
         if tran == "D": #should add additional logic to help prevent failures and illogical values
@@ -259,12 +710,47 @@ class Transactions: #class for all transaction types supported
                 print("Your account balance after your deposit:\t", t_3) #confirm transactiont to user
         elif tran == "C": #should add additional logic to help prevent failures and illogical values
             t = Transactions.check_balance(self, account) #call transaction method to check balances
-            print("Current status of your accounts:\t") #print client alert message
-            print(t) #returns the account numbers and balance
             self.tran_history[3.1] = user  #append transaction history to main transaction history dictionrary
             self.tran_history[3.2] = tran  #append transaction history to main transaction history dictionrary
             self.tran_history[3.3] = t  #update transaction history with contents of checking account balances
+            print(t)  # returns the account numbers and balance
             print(self.tran_history.items())
+
+            try:
+                t_msg1 = t["check_balance_message"]
+                t_msg2 = t["checking_balance_message"]
+                t_msg3 = t["saving_balance_message"]
+                t_bal1 = t["checking_balance_amount"]
+                t_bal2 = t["saving_balance_amount"]
+
+                print(t_msg1)
+                print(t_msg2)
+                print(t_msg3)
+                print("Available Funds in Checking:\t", t_bal1)
+                print("Available Funds in Savings:\t", t_bal2)
+
+            except KeyError:
+
+                try:
+                    t_msg1 = t["check_balance_message"]
+                    t_msg2 = t["checking_balance_message"]
+                    t_bal1 = t["checking_balance_amount"]
+                    print(t_msg1)
+                    print(t_msg2)
+                    print("Available Funds in Checking:\t", t_bal1)
+
+                except KeyError:
+
+                    try:
+                        t_msg1 = t["check_balance_message"]
+                        t_msg3 = t["saving_balance_message"]
+                        t_bal2 = t["saving_balance_amount"]
+                        print(t_msg1)
+                        print(t_msg3)
+                        print("Available Funds in Savings:\t", t_bal2)
+
+                    except KeyError:
+                        print("Technical issues with accessing your account information, please see teller.")
         elif tran == "W": #should add additional logic to help prevent failures and illogical values
             s = Transactions.check_funds(self, account) #method call, confirm client has sufficient funds
             t = Transactions.withdraw_funds(self, account, s)  # method call to complete the withdrawal
@@ -333,6 +819,78 @@ class Transactions: #class for all transaction types supported
                 print("Please try your transaction again or see a teller for assistance")
                 #insert a system alert for the bank to investigate any issues with the application
 
+
+    def bank_check_funds(self,args):
+        self.__init__(self)
+        #local variables
+        account = args  #collect the acount number
+        d_temp = {}  #will store all the results of this transaction
+        msg = ""  #catch the results for the transaction log
+        options = ["Checking", "checking", "Saving", "saving", ] #possible valid user entries for sub_account_type
+        sub_acct = 0  # temp variable to fetch sub account number
+        sub_acct_bal = 0  # temp variable for storing the sub accounts balances
+        flag_sufficient_funds = bool  # flag to determine if the client has enough money to make desired transaction
+
+        try:
+
+            tran_amount = float(input("Please enter the amount you with to withdraw.\t")) #ask user for transaction amount
+
+
+        except ValueError:
+            msg = "Invalid withdrawal amount provided.  Please start again."
+            d_temp["check_funds_message"] = msg
+            d_temp["tran_amount"] = None
+            return d_temp
+
+        else:
+
+            try:
+                if tran_amount <= 0:
+                    raise TypeError
+
+            except TypeError:
+                msg = "Invalid withdrawal amount provided.  Please start again."
+                d_temp["check_funds_message"] = msg
+                d_temp["tran_amount"] = tran_amount
+                return d_temp
+
+            else:
+                d_temp["tran_amount"] = tran_amount
+                sub_acct_type = input("Withdraw from checking or savings account? (Type checking or saving)") #ask what type of account they want to transact from
+                try:
+                    if sub_acct_type not in options:
+                        raise TypeError
+                except TypeError:
+                    msg = "Invalid account type provided.  Please start again"
+                    d_temp["check_funds_message"] = msg
+                    return d_temp
+                else:
+                    d_temp["sub_account_type"] = sub_acct_type
+                    for keys, values in self.account_details.items():  # look in client account dictionary
+                        if keys == account:  # if the account number matches that of the client's account number
+                            for k, v in values.items():  # look in the sub-dictionaries
+                                if k == sub_acct_type:  # if the sub account type matches what was provided by the user
+                                    sub_acct = v  # store the sub account number
+                                    d_temp["sub_account"] = v #capture for transaction log
+                                elif k == sub_acct:  # now that you have the sub account number, match to its key
+                                    sub_acct_bal = v  # store the balance of the sub account
+                                    d_temp["sub_account_balance_begin"] = v
+                    try:
+                         if sub_acct_bal < tran_amount: #check undesired outcome, there is less money in the account than the client's desired transaction amount
+                             raise TypeError
+                    except TypeError:
+                         msg = "Insufficient funds available in the account client selected to complete client transaction. Please start again or see a Teller."
+                         d_temp["check_funds_message"] = msg
+                         flag_sufficient_funds = False
+                         d_temp["flag_sufficient_funds"] = flag_sufficient_funds
+                         return d_temp
+                    else:
+                        if sub_acct_bal >= tran_amount:  # verify if there is more money, or equal money, to the clients desired transaction
+                             flag_sufficient_funds = True  # if there is, then set the flag equal to True
+                             msg = "Sufficient funds available in client account to complete client transaction, proceed execute transaction."
+                             d_temp["check_funds_message"] = msg
+                             d_temp["flag_sufficient_funds"] = flag_sufficient_funds
+                             return d_temp
 
     def check_funds(self,args):
         self.__init__(self)
@@ -407,6 +965,55 @@ class Transactions: #class for all transaction types supported
                              return d_temp
 
 
+    def bank_withdraw_funds(self, args, kwargs):  #method to actually take funds from client account
+        self.__init__(self)
+
+        #local variables
+        sub_acct_bal = 0  # variable to capture temporary starting balance of account
+        temp_bal = 0  # variable to capture temporary calculated ending balance of account
+        final_balance = 0  # variable to capture the final balance
+        d_temp = {}
+        msg = ""
+
+        try:  #collect data from method input
+            account = args
+            d_check_funds = kwargs
+            sub_account = d_check_funds["sub_account"]
+            flag_funds = d_check_funds["flag_sufficient_funds"]
+            tran_amount = d_check_funds["tran_amount"]
+
+        except KeyError:  #if method input data incomplete, error message and leave method
+            msg = "Issue with transaction data, withdrawal transaction not completed."
+            d_temp["withdrawal_message"] = msg
+            return d_temp
+
+        else: #if input data found, proceed with method
+
+            try:
+                if flag_funds == False:
+                    raise TypeError
+
+            except TypeError:
+                msg = "Insufficient funds, no withdrawal transaction processed."
+                d_temp["withdrawal_message"] = msg
+                return d_temp
+
+            else:
+                if flag_funds == True:
+                    for keys, values in self.account_details.items():  #look into account details
+                        if keys == account:
+                            for k, v, in values.items():
+                                if k == sub_account: #if the account matches the provided client sub account
+                                    sub_acct_bal = v
+                                    d_temp["withdrawal_begin_balance"] = v
+                                    temp_bal = sub_acct_bal - tran_amount
+                                    self.account_details[account][sub_account] = temp_bal
+                                    final_balance = self.account_details[account][sub_account]
+                                    d_temp["withdrawal_end_balance"] = final_balance
+                                    msg = "Withdrawal from client account complete."
+                                    d_temp["withdrawal_message"] = msg
+                                    return d_temp
+
     def withdraw_funds(self, args, kwargs):  #method to actually take funds from client account
         self.__init__(self)
 
@@ -456,6 +1063,58 @@ class Transactions: #class for all transaction types supported
                                     d_temp["withdrawal_message"] = msg
                                     return d_temp
 
+
+    def bank_deposit_funds(self, args): #method for depositing funds, without a transfer
+        self.__init__(self)
+        account = args
+        d_temp = {}
+        msg = ""
+        options = ["Checking", "checking", "Savings", "savings",]
+        tran_amount = float(input("Please enter the amount you wish to deposit.")) #collect deposit amount
+        try:
+            if tran_amount <= 0:
+                raise TypeError
+        except TypeError:
+            msg = "Incorrect deposit amount provided."
+            #print(msg)
+            d_temp["deposit_message"] = msg
+            return d_temp
+        else:
+            d_temp["tran_amount"] = tran_amount
+            sub_acct_type = input("Deposit to checking or savings account? (Type checking or saving)\t") #collect the type of account they wanted to deposit the funds to
+            sub_acct_type.capitalize()
+            try:
+                if sub_acct_type not in options:
+                    raise TypeError
+            except TypeError:
+                msg = "Incorrect account type provided."
+                #print(msg)
+                d_temp["deposit_message"] = msg
+                return d_temp
+            else:
+                d_temp["sub_account_type"] = sub_acct_type
+                sub_acct = 0 #placeholder for the sub account
+                sub_acct_bal = 0 #placeholder for the starting balance fo the sub account
+                temp_bal = 0 #placeholder for the calculate balance after the deposit
+                final_balance = 0
+
+                for keys, values in self.account_details.items(): #look into account details dictionary
+                    if keys == account: #if the account equals that provided by the client
+                        for k, v in values.items(): #look into the sub dictionaries
+                            if k == sub_acct_type: #if the account type matches the type provided by client
+                                sub_acct = v #store the sub account number
+                                d_temp["sub_account"] = sub_acct #provide sub account number to transaction history temp
+                            elif k == sub_acct: #now you have the sub account number, look at its contents
+                                sub_acct_bal = v #collect the begining balance of the sub account
+                                temp_bal = v + tran_amount #calculate the new balance, with clients deposit
+                                d_temp["sub_account_balance_begin"] = sub_acct_bal #update transaction history temp with ending balance
+                                self.account_details[account][k] = temp_bal #update actual sub account balance
+                                final_balance = self.account_details[account][k] #collect final balance
+                                d_temp["transaction_amount"] = tran_amount #update transaction amount in transaction history temp
+                                d_temp["sub_account_balance_end"] = final_balance #update ending sub account balance in transaction history temp
+                                msg = "Deposit was successful."
+                                d_temp["deposit_message"] = msg
+                return d_temp #return transaction log
 
     def deposit_funds(self, args): #method for depositing funds, without a transfer
         self.__init__(self)
@@ -509,6 +1168,131 @@ class Transactions: #class for all transaction types supported
                                 d_temp["deposit_message"] = msg
                 return d_temp #return transaction log
 
+
+    def bank_transfer_account(self, kwargs): #method to verify if destination account provided by user for their transfer
+        self.account_details #invoke account details
+
+        #local variables
+        options = ["Checking", "checking", "Saving", "saving", ]  # possible valid user entries for sub_account_type
+        d_temp = {}  # placeholder for method results
+        msg = ""  # placholder for transaction results message
+        to_account = 0  # temp variable for the destination account
+        to_sub_account_type = ""  # temp variable for the destination account type
+        to_sub_account = 0  # temp variable for destination sub account
+        flag_valid_transfer = bool
+        flag_transfer_account = bool
+        flag_transfer_sub_type = bool
+
+        try:  #collect data from method inputs
+
+            d_transfer_in = kwargs #collect input
+            flag_funds = d_transfer_in["flag_sufficient_funds"]
+
+        except KeyError: #if there is an issue with the input data, error message and leave method
+            msg = "Issue with transaction data, transfer destination account not validated"
+            d_temp["transfer_account_message"] = msg
+            return d_temp
+
+        else: #if input data is found, proceed with method
+
+            try: #check the client had sufficient funds, if not, don't bother
+                if flag_funds == False or flag_funds == None:
+                    raise TypeError
+
+            except TypeError:   #method action for undesirable outcome
+                    msg = "Insufficient funds in client account, transfer not completed."
+                    flag_valid_transfer = False
+                    d_temp["transfer_account_message"] = msg
+                    d_temp["check_transfer_flag"] = flag_valid_transfer
+                    return d_temp #complete method
+
+            else:  #next confirmations if funds are sufficient
+
+                try:
+
+                    if flag_funds == True:  #proceed only if funds were sufficient for the transfer
+                        to_account = int(input("Please provide the account number to receive your transfer.\t"))  # get the destination account from the user
+
+
+                except ValueError:
+                       msg = "Provided transfer destination account cannot be processed"
+                       d_temp["transfer_to_account"] = None  # update for transaction log
+                       d_temp["transfer_account_message"] = msg  # update for transcation log
+                       return d_temp
+
+                else:
+                    try:
+                        d_temp["transfer_to_account"] = to_account  # update for transaction log
+                        to_sub_account_type = input("Is it a checkings or savings account? Type checking or saving.\t")  # get the destination account type from the user
+
+
+                    except ValueError: #undesirable outcome, client provided input cannot be processed as a string
+                        msg = "Provided transfer destination account type cannot be processed"
+                        d_temp["to_sub_account_type"] = None  # update for transaction log
+                        d_temp["transfer_account_message"] = msg  # update for transcation log
+                        return d_temp
+
+                    else:
+
+                        try:
+                            d_temp["transfer_to_account"] = to_account  # update for transaction log
+                            if to_sub_account not in options:
+                                raise TypeError
+                        except TypeError: #undesirable outcome that client provided input is an invalid account type
+                            msg = "Provided transfer destination account type cannot be processed"
+                            d_temp["to_sub_account_type"] = None  # update for transaction log
+                            d_temp["transfer_account_message"] = msg  # update for transcation log
+                            return d_temp
+
+                        else:
+                            d_temp["transfer_to_account"] = to_account  # update for transaction log
+                            d_temp["to_sub_account_type"] = to_sub_account_type  # update for transcation log
+                            for keys, values in self.account_details.items(): #look into dictionary to validate accounts
+                                if keys == to_account: #look for the to_account ot be valid or not
+                                    flag_transfer_account = True #if found, it's valid
+                                    msg = "Transfer account confirmed." #message for transaction log
+                                    d_temp["transfer_account_message"] = msg #update for transcation log
+                                    for k, v, in values.items(): #look in sub dictionary for sub account type
+                                        if k == to_sub_account_type: #look if sub account type is valid
+                                            flag_transfer_sub_type = True #if found it's valid
+                                            msg = "Transfer account sub type confirmed" #message for transaction log
+                                            d_temp["transfer_sub_type_message"] = msg #update for transation log
+
+                                try:  #check for undesirable outcome of incorrect account number provided
+                                   if flag_transfer_account != True:
+                                       raise TypeError
+
+                                except TypeError: #action if account number invalid
+                                       msg = "Unable to locate transfer to account."
+                                       d_temp["transfer_account_message"] = msg
+                                       flag_valid_transfer = False
+                                       d_temp["check_transfer_flag"] = flag_valid_transfer
+                                       return d_temp   #complete method
+
+                                else: #method action if account number found to be valid, move on to check sub account type
+
+                                    try: #if account valid, check for undesirable outcome of the sub account type does not exist
+                                        if flag_transfer_sub_type != True:
+                                            raise TypeError
+
+                                    except TypeError:  #action if sub account type is not found
+                                        msg = "Unable to locate the sub account type for transfer account."
+                                        d_temp["transfer_sub_type_message"] = msg
+                                        flag_valid_transfer = False
+                                        d_temp["check_transfer_flag"] = flag_valid_transfer
+                                        return d_temp  # complete method
+
+                                    else: #if funds are sufficient, if to account is valid, is sub account type is valid, proceed to method action
+
+                                        for keys, values in self.account_details.items(): #look in accounts dictionary
+                                            if keys == to_account:  #check for account number
+                                                for k, v, in values.items(): #look into sub dictionaries
+                                                    if k == to_sub_account_type: #use the sub account type
+                                                        to_sub_account = v #collect the sub account number in temporary variable
+                                                        d_temp["to_sub_account"] = to_sub_account #add to transaction log
+                                                        flag_valid_transfer = True #update confirmation flag
+                                                        d_temp["check_transfer_flag"] = flag_valid_transfer #update to transaction log
+                                                        return d_temp #complete method
 
     def transfer_account(self, kwargs): #method to verify if destination account provided by user for their transfer
         self.account_details #invoke account details
@@ -636,6 +1420,59 @@ class Transactions: #class for all transaction types supported
                                                         return d_temp #complete method
 
 
+    def bank_transfer_deposit(self, kwargs_1, kwargs_2): #method to deposit the transfered amount to the desintation account
+        self.__init__(self)
+
+        # local variables
+        d_temp = {}  # placeholder for transaction log from transfer deposit
+        msg = ""  # placholder for message for transaction log
+        to_sub_acct_bal = 0  # temp variable for collecting begining account balance of destination account
+        temp_bal = 0  # temp variable for calculated balance after transfer deposit
+        to_final_balance = 0  # temp variable to hold the final account balance
+
+        try: #collect from method input
+
+            d_in_check_funds = kwargs_1
+            d_in_check_transfer = kwargs_2
+            tran_amount = d_in_check_funds["tran_amount"]
+            flag_funds = d_in_check_funds["flag_sufficient_funds"]
+            to_account = d_in_check_transfer["transfer_to_account"]
+            to_sub_account = d_in_check_transfer["to_sub_account"]
+            flag_transfer = d_in_check_transfer["check_transfer_flag"]
+
+        except KeyError:
+            msg = "Issue with transaction data, transfer deposit not competed."
+            d_temp["transfer_deposit_message"] = msg
+            return d_temp
+
+        else:
+
+            try: #if the funds were found to be insufficient - no deposit to be made
+                if flag_funds != True:
+                    raise TypeError
+                elif flag_transfer != True:
+                    raise TypeError
+
+            except TypeError: #method action for insufficient funds
+                msg = "Insufficient funds or invalid destination account. Transfer deposit not completed"
+                d_temp["transfer_deposit_message"] = msg
+                return d_temp
+
+            else: #the funds were sufficient and the transfer account was valid, proceed with deposit
+                for keys, values in self.account_details.items():
+                    if keys == to_account:
+                        for k, v in values.items():
+                            if k == to_sub_account:
+                                sub_acct_bal = v
+                                d_temp["to_account_balance_beg"] = v
+                                temp_bal = sub_acct_bal + tran_amount
+                                self.account_details[to_account][to_sub_account] = temp_bal
+                                final_balance = self.account_details[to_account][to_sub_account]
+                                d_temp["to_account_balance_end"] = final_balance
+                                msg = "Transfer deposit successful."
+                                d_temp["transfer_deposit_message"] = msg
+                                return d_temp
+
     def transfer_deposit(self, kwargs_1, kwargs_2): #method to deposit the transfered amount to the desintation account
         self.__init__(self)
 
@@ -690,6 +1527,57 @@ class Transactions: #class for all transaction types supported
                                 return d_temp
 
 
+    def bank_transfer_withdraw(self, args, kwargs_1, kwargs_2):  # method to actually take funds from client account
+        self.__init__(self)
+
+        # local variables
+        sub_acct_bal = 0  # variable to capture temporary starting balance of account
+        temp_bal = 0  # variable to capture temporary calculated ending balance of account
+        final_balance = 0  # variable to capture the final balance
+        d_temp = {}
+        msg = ""
+
+        try:  # collect data from method input
+            account = args
+            d_check_funds = kwargs_1
+            d_in_check_transfer = kwargs_2
+            sub_account = d_check_funds["sub_account"]
+            flag_funds = d_check_funds["flag_sufficient_funds"]
+            tran_amount = d_check_funds["tran_amount"]
+            flag_transfer = d_in_check_transfer["check_transfer_flag"]
+
+        except KeyError:  # if method input data incomplete, error message and leave method
+            msg = "Issue with transaction data, withdrawal transaction not completed."
+            d_temp["transfer_withdraw_message"] = msg
+            return d_temp
+
+        else:  # if input data found, proceed with method
+
+            try:
+                if flag_funds != True or flag_transfer != True:
+                    raise TypeError
+
+            except TypeError:
+                msg = "Insufficient funds or invalid transfer desination account, no withdrawal transaction processed."
+                d_temp["transfer_withdraw_message"] = msg
+                return d_temp
+
+            else:
+                if flag_funds == True:
+                    for keys, values in self.account_details.items():  # look into account details
+                        if keys == account:
+                            for k, v, in values.items():
+                                if k == sub_account:  # if the account matches the provided client sub account
+                                    sub_acct_bal = v
+                                    d_temp["transfer_withdraw_begin_balance"] = v
+                                    temp_bal = sub_acct_bal - tran_amount
+                                    self.account_details[account][sub_account] = temp_bal
+                                    final_balance = self.account_details[account][sub_account]
+                                    d_temp["transfer_withdraw_end_balance"] = final_balance
+                                    msg = "Withdrawal from client account complete."
+                                    d_temp["transfer_withdraw_message"] = msg
+                                    return d_temp
+
     def transfer_withdraw(self, args, kwargs_1, kwargs_2):  # method to actually take funds from client account
         self.__init__(self)
 
@@ -742,31 +1630,195 @@ class Transactions: #class for all transaction types supported
                                     return d_temp
 
 
+    def bank_check_balance(self, args): #method for allowing client ot check their balances
+        self.__init__(self)
+
+        #local variables
+        d_temp = {}  # placeholder for account balance information
+        msg = ""
+        check_sub_account = 0
+        savings_sub_account = 0
+
+        try:
+            account = args #collect account number
+
+        except ValueError:
+            msg = "Unable to process account information, balances not provided."
+            d_temp["check_balance_message"] = msg
+            return d_temp
+
+        else:
+
+            msg = "Account Information Accessed."
+            d_temp["check_balance_message"] = msg
+
+            try:
+                check_sub_account = self.account_details[account]["checking"]  #collect sub account number
+
+            except ValueError:
+                msg = "Unable to process checking account, account may not exist."
+                d_temp["checking_balance_message"] = msg
+
+
+            else:
+                msg = "Checking account confirmed."
+                d_temp["checking_balance_message"] = msg
+
+                try:
+                    d_temp["checking_balance_amount"] = self.account_details[account][check_sub_account]  # create key:value, store balance, for results
+
+                except ValueError:
+                    msg = "Error in retrieving account balance for checking account. Please see Teller."
+                    d_temp["checking_balance_amount"] = None
+                    d_temp["checking_balance_message"] = msg
+
+                else:
+                    try:
+                        savings_sub_account = self.account_details[account]["saving"]  # collect sub account number
+
+                    except ValueError:
+                        msg = "Unable to process savings account, account may not exist."
+                        d_temp["saving_balance_message"] = msg
+
+                    else:
+                        msg = "Savings account confirmed."
+                        d_temp["saving_balance_message"] = msg
+
+                        try:
+                            d_temp["saving_balance_amount"] = self.account_details[account][savings_sub_account]  # create key:value, store balance, for results
+
+                        except ValueError:
+                            msg = "Error in retrieving account balance for savings account. Please see Teller."
+                            d_temp["saving_balance_message"] = msg
+
+                        else:
+                             return d_temp #return temporary dictionaries for client notification
+
     def check_balance(self, args): #method for allowing client ot check their balances
         self.__init__(self)
-        account = args #collect account number
-        d_temp = {} #placeholder for account balance information
-        check_sub_account = self.account_details[account]["checking"]  #collect sub account number
-        d_temp["Checking Balance"] = self.account_details[account][check_sub_account] #create key:value, store balance, for results
-        savings_sub_account = self.account_details[account]["saving"] #collect sub account number
-        d_temp["Saving Balance"] = self.account_details[account][savings_sub_account] #create key:value, store balance, for results
-        return d_temp #return temporary dictionaries for client notification
+
+        #local variables
+        d_temp = {}  # placeholder for account balance information
+        msg = ""
+        check_sub_account = 0
+        savings_sub_account = 0
+
+        try:
+            account = args #collect account number
+
+        except ValueError:
+            msg = "Unable to process account information, balances not provided."
+            d_temp["check_balance_message"] = msg
+            return d_temp
+
+        else:
+
+            msg = "Account Information Accessed."
+            d_temp["check_balance_message"] = msg
+
+            try:
+                check_sub_account = self.account_details[account]["checking"]  #collect sub account number
+
+            except ValueError:
+                msg = "Unable to process checking account, account may not exist."
+                d_temp["checking_balance_message"] = msg
+
+
+            else:
+                msg = "Checking account confirmed."
+                d_temp["checking_balance_message"] = msg
+
+                try:
+                    d_temp["checking_balance_amount"] = self.account_details[account][check_sub_account]  # create key:value, store balance, for results
+
+                except ValueError:
+                    msg = "Error in retrieving account balance for checking account. Please see Teller."
+                    d_temp["checking_balance_amount"] = None
+                    d_temp["checking_balance_message"] = msg
+
+                else:
+                    try:
+                        savings_sub_account = self.account_details[account]["saving"]  # collect sub account number
+
+                    except ValueError:
+                        msg = "Unable to process savings account, account may not exist."
+                        d_temp["saving_balance_message"] = msg
+
+                    else:
+                        msg = "Savings account confirmed."
+                        d_temp["saving_balance_message"] = msg
+
+                        try:
+                            d_temp["saving_balance_amount"] = self.account_details[account][savings_sub_account]  # create key:value, store balance, for results
+
+                        except ValueError:
+                            msg = "Error in retrieving account balance for savings account. Please see Teller."
+                            d_temp["saving_balance_message"] = msg
+
+                        else:
+                             return d_temp #return temporary dictionaries for client notification
+
 
 
 
 
 class Bank:
-    pass
+    b = ConfirmBankTeller  # invoke class for confirming the client identity
+    c = input("Please enter username.\t")  # collect client card/account number
+    p = input("Please enter your password.\t") # collect client pin number
+    d_login = {}  # placeholder to store user input
+    d_login["username"] = c  # key:value pair for user input of account/card number
+    d_login["password"] = p  # key:value pair for user input of personal identification number
+    print(d_login)
+    confirm_login = {}  # placeholder of check_account and check_pin method results
+    confirm_login = ConfirmBankTeller.check_user(b, d_login)
+    print(confirm_login)
+    flag_user = confirm_login["flag_user"]
+    flag_password = confirm_login["flag_password"]
+    d_account = {}
+    try:
+        if flag_user != True or flag_password != True:
+            raise TypeError
+
+    except TypeError:
+        print("Invalid credentials.")
+        exit()
+
+    else:
+
+        try:
+            e = int(input("Please provide the account number."))
+            f = input("Please provide if the account is main, checking, or saving")
+
+        except ValueError:
+            print("Invalid entry for account numbers")
+            exit()
+
+        else:
+            d_account["account"] = e
+            d_account["type"] = f
+            g = ConfirmBankTeller.resolve_account(b, d_account)
+            print(g)
+
+
+
+
+
+        f = ServiceSelection  # invoke class for making client transaction selection
+        d_tran = ServiceSelection.transaction_type(f)  # call class method and setting temporary variable for selection made
+        print("Bank", d_tran)
+
+
 
 class ClientATM:
-    b = ConfirmClient  # invoke class for confirming the client identity
+    b = ATMConfirmClient  # invoke class for confirming the client identity
     c = int(input("Please provide your card number.\t"))  # collect client card/account number
     p = int(input("Please enter your pin number.\t"))  # collect client pin number
     d_user = {}  # placeholder to store user input
     d_user["user_account"] = c  # key:value pair for user input of account/card number
     d_user["user_pin"] = p  # key:value pair for user input of personal identification number
     confirmation = {}  # placeholder of check_account and check_pin method results
-    confirmation = ConfirmClient.check_account(b, d_user)  # call class method and set temp variable for confirming client account identify
+    confirmation = ATMConfirmClient.atm_check_account(b, d_user)  # call class method and set temp variable for confirming client account identify
     flag_account = confirmation["flag_account"] #retrieve confirmation flag for account number
     flag_pin = confirmation["flag_pin"]  #retreive confirmaiton flag for pin number
 
@@ -782,44 +1834,43 @@ class ClientATM:
     else:   #action for desired outcome
         e = ServiceSelection  # invoke class for making client transaction selection
         d_tran = ServiceSelection.transaction_type(e)  # call class method and setting temporary variable for selection made
-        print("client ATM", tran)
+        print("client ATM", d_tran)
         f = Transactions
-        Transactions.Transaction_Calls(f, d_user, d_tran)
+        Transactions.atm_transaction_calls(f, d_user, d_tran)
 
 
 class Teller:
-    pass
+    b = ConfirmBankTeller  # invoke class for confirming the client identity
+    c = input("Please enter username.\t")  # collect client card/account number
+    p = input("Please enter your password.\t") # collect client pin number
+    d_login = {}  # placeholder to store user input
+    d_login["username"] = c  # key:value pair for user input of account/card number
+    d_login["password"] = p  # key:value pair for user input of personal identification number
+    print(d_login)
+    confirm_login = {}  # placeholder of check_account and check_pin method results
+    confirm_login = ConfirmBankTeller.check_user(b, d_login)
+    print(confirm_login)
+    flag_user = confirm_login["flag_user"]
+    flag_password = confirm_login["flag_password"]
+    try:
+        if flag_user != True or flag_password != True:
+            raise TypeError
+
+    except TypeError:
+        print("Invalid credentials.")
+        exit()
+
+    else:
+        e = ServiceSelection  # invoke class for making client transaction selection
+        d_tran = ServiceSelection.transaction_type(e)  # call class method and setting temporary variable for selection made
+        print("Teller", d_tran)
 
 
 def main():
-    ClientATM()
+    Bank()
 
 
 if __name__ == "__main__":
     main() #call main function
 
 
-"""    
-    try:
-        flags = ConfirmClient.check_account(a, d_user) #call class method and set temp variable for confirming client account identify
-    except:
-        pass
-#        flags == TypeError
-#        print("Please start over.\t")
-#        print("Apologies, we cannot confirm your account.\n") #rejection message
-#        print("Please see a teller.\t") #instruction message
-    else:
-        pass
-"""
-
-"""
-    if flag_account == True and flag_pin == True: #only execute if the client identity is confirmed
-        print("Account confirmed.\t") #notice to client
-        b = ServiceSelection  # invoke class for making client transaction selection
-        tran = ServiceSelection.transaction_type(b)  # call class method and setting temporary variable for selection made
-        d = Transactions  # invoke class for transactions
-        e = Transactions.Transaction_Calls(d, tran, c)  # calling class methods and setting temporary variable for executing client transactions
-    else:
-        print("Apologies, we cannot confirm your account.\n") #rejection message
-        print("Please see a teller.\t") #instruction message
-"""
