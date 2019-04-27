@@ -186,7 +186,7 @@ while True:
 #        exit()
     elif u in stop_cart:
         print("Your final shopping cart:\t", cart)
-        exit()
+        break
     elif u not in edit_cart:
         p = float(input("Please enter the price of the item you wish to add.\t"))
         d_temp[u] = p

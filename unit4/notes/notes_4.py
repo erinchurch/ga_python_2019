@@ -56,6 +56,7 @@ class Dog(Animal):
         print("whoof")
 
 def main():
+    bob = Animal()
     sam = Dog()
 
 if __name__ == "__main__":
