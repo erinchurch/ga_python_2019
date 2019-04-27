@@ -1,4 +1,4 @@
-import datetime
+#import datetime
 """
 DIDNT WORK
 k = datetime.datetime.now()
@@ -104,8 +104,8 @@ print(flag2)
 
 
 
-s = "101;checking;501;4500.0;saving;601;5000.0;Erin Church;erinchurch;"
-s_new = "101;checking;501;5000.0;saving;601;5000.0;Erin Church;erinchurch;"
+#s = "101;checking;501;4500.0;saving;601;5000.0;Erin Church;erinchurch;"
+#s_new = "101;checking;501;5000.0;saving;601;5000.0;Erin Church;erinchurch;"
 
 """
 #doesn't work
@@ -154,6 +154,8 @@ def collect_update_for_file(fname, s_old_snip, s_new_snip):
     counter_start_position = 0
     s_1 = s_old_snip
     s_2 = s_new_snip
+    rest = []
+    line_position = 0
 
     #flag_len = len(s_1) == len(s_2) #for try/except
     #print(flag_len) #for try/except
@@ -166,45 +168,53 @@ def collect_update_for_file(fname, s_old_snip, s_new_snip):
     #write line to delete the accounts
 
 
-    for lines in update_account_file:
-        #print(lines)
+    for num, lines in enumerate(update_account_file):
+        print(lines)
         #print(type(lines))
         #print(len(lines))
         for line in range(len(lines)):
             #print(lines[line:(line + len(s_1))])
             if lines[line: (line+len(s_1))] == s_1:
-                counter_match += 1
-                print("counter", counter_match)
+                line_position = num
+                print("num", line_position)
+                #counter_match += 1
+                #print("counter", counter_match)
                 counter_start_position = line
                 print("counter start position", counter_start_position)
                 s_before = lines[0:(line - 1)]
                 print("before", s_before)
                 s_after = lines[(counter_start_position+len(s_1)):len(lines)]
                 print("s_after", s_after)
-                s_new = ("\n"+s_before+";"+s_2+";"+s_after)
+                s_new = (s_before+";"+s_2+s_after)
                 print("new", s_new)
                 s_original = lines
                 print("original",s_original)
-                return(s_original, s_new)
 
     update_account_file.close()
+    return line_position, s_original, s_new
+
+
 
 
 def update_account(fname, *args):
 
-    update_account_file = open(fname, "r+")
-    s_original = args[0]
-    #print(s_original)
-    s_new = args[1]
-    #print(s_new)
+    #update_account_file = open(fname, "r+")
+    line_pos = args[0]
+    print(line_pos)
+    s_orig = args[1]
+    s_new = args[2]
+
     check_flag = bool
+    line_counter = 0
 
-    for lines in update_account_file:
-        if lines.strip("\n") == s_original.strip("\ns"):
-            check_flag = True
-            print("check flag", check_flag)
+    lines_update = open(fname, "r").readlines()
+    print(lines_update[line_pos])
+    lines_update[line_pos] = s_new
+    print(lines_update)
+    out = open(fname, "w")
+    out.writelines(lines_update)
+    out.close()
 
-    update_account_file.close()
 
 s_1 = "501;4500.0"
 s_2 = "501;5000.0"
@@ -212,13 +222,48 @@ s_2 = "501;5000.0"
 
 
 s_input = collect_update_for_file("update.txt", s_1, s_2)
-#print("input", s_input)
+print("input", s_input)
 c = update_account("update.txt", *s_input)
 
 
 
+def seek_file(fname, s):
+
+    file = open(fname, "r+")
+    line_position = int
+
+    for num, lines in enumerate(file):
+        if file.seek(0, len(s)) == s:
+            print(lines)
+            line_position = num
+            print(line_position)
+
+#seek_file("update.txt", s_1)
+
+"""
+def replace_line(file_name, line_num, text):
+    lines = open(file_name, 'r').readlines()
+    lines[line_num] = text
+    out = open(file_name, 'w')
+    out.writelines(lines)
+    out.close()
 
 
+replace_line('stats.txt', 0, 'Mage')
 
+"""
+
+
+"""
+ for lines in update_account_file:
+        line_counter += 1
+        print(line_counter)
+        if lines.strip("\n") == s_original.strip("\n"):
+            check_flag = True
+            print("check flag", check_flag)
+            update_account_file.write(s_new)
+            #problem, it doesn't delete the old line
+
+"""
 
 

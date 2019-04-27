@@ -1,5 +1,6 @@
-101;checking;501;4500.0;saving;601;5000.0;Erin Church;erinchurch;
+101;checking;501;5000.0;saving;601;5000.0;Erin Church;erinchurch;
 102;checking;502;3500.0;savings;602;12000.0;Ronald Williams;ronaldwilliams;
 103;checking;503;1200.0;saving;603;2300.0;Dirk Church;dirkchurch;
 104;checking;504;10000.0;saving;604;200.0;Anita Ghardi;anitaghardi;
 105;checking;505;1000.0;saving;605;1200.0;Kenya Brown;kenyabrown;
+
