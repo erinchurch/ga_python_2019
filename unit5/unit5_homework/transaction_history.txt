@@ -1,0 +1,52 @@
+[(8.1, 'T')][(8.1, 'T')][(8.1, 'T')]1556148576.290092[(8.1, 'T')]
+1556148652.870789[(8.1, 'T')]
+1556148666.434413[(8.2, {'tran_amount': 450.0, 'sub_account_type': 'checking', 'sub_account': 501, 'sub_account_balance_begin': 4500.0, 'check_funds_message': 'Sufficient funds available in client account to complete client transaction, proceed execute transaction.', 'flag_sufficient_funds': True})]
+1556149049.011268[(8.2, {'tran_amount': 450.0, 'sub_account_type': 'checking', 'sub_account': 501, 'sub_account_balance_begin': 4500.0, 'check_funds_message': 'Sufficient funds available in client account to complete client transaction, proceed execute transaction.', 'flag_sufficient_funds': True})]
+1556149049.011294[(8.3, {'transfer_to_account': 102, 'to_sub_account_type': None, 'transfer_account_message': 'Provided transfer destination account type cannot be processed'})]
+1556149049.011308(8.4, {'transfer_withdraw_message': 'Issue with transaction data, withdrawal transaction not completed.'})
+1556149067.038989[(8.2, {'tran_amount': 450.0, 'sub_account_type': 'checking', 'sub_account': 501, 'sub_account_balance_begin': 4500.0, 'check_funds_message': 'Sufficient funds available in client account to complete client transaction, proceed execute transaction.', 'flag_sufficient_funds': True})]
+1556149067.039015[(8.3, {'transfer_to_account': 102, 'to_sub_account_type': None, 'transfer_account_message': 'Provided transfer destination account type cannot be processed'})]
+1556149067.03903[(8.4, {'transfer_withdraw_message': 'Issue with transaction data, withdrawal transaction not completed.'})]
+1556149104.057753[(8, {'check_user_message': 'User name confirmed.', 'flag_user': True, 'check_password_message': 'User password validated', 'flag_password': True, 'client_account': 101}), (8.1, 'T'), (8.2, {'tran_amount': 450.0, 'sub_account_type': 'checking', 'sub_account': 501, 'sub_account_balance_begin': 4500.0, 'check_funds_message': 'Sufficient funds available in client account to complete client transaction, proceed execute transaction.', 'flag_sufficient_funds': True}), (8.3, {'transfer_to_account': 102, 'to_sub_account_type': None, 'transfer_account_message': 'Provided transfer destination account type cannot be processed'}), (8.4, {'transfer_withdraw_message': 'Issue with transaction data, withdrawal transaction not completed.'}), (8.5, {'transfer_deposit_message': 'Issue with transaction data, transfer deposit not competed.'})]
+1556149104.057781[(8, {'check_user_message': 'User name confirmed.', 'flag_user': True, 'check_password_message': 'User password validated', 'flag_password': True, 'client_account': 101})]
+1556149104.057795[(8.1, 'T')]
+1556149104.057806[(8.2, {'tran_amount': 450.0, 'sub_account_type': 'checking', 'sub_account': 501, 'sub_account_balance_begin': 4500.0, 'check_funds_message': 'Sufficient funds available in client account to complete client transaction, proceed execute transaction.', 'flag_sufficient_funds': True})]
+1556149104.057815[(8.3, {'transfer_to_account': 102, 'to_sub_account_type': None, 'transfer_account_message': 'Provided transfer destination account type cannot be processed'})]
+1556149104.057824[(8.4, {'transfer_withdraw_message': 'Issue with transaction data, withdrawal transaction not completed.'})]
+1556149104.057833[(8.5, {'transfer_deposit_message': 'Issue with transaction data, transfer deposit not competed.'})]
+1556149132.813704[(8, {'check_user_message': 'User name confirmed.', 'flag_user': True, 'check_password_message': 'User password validated', 'flag_password': True, 'client_account': 101})]
+1556149132.813732[(8.1, 'T')]
+1556149132.813746[(8.2, {'tran_amount': 450.0, 'sub_account_type': 'checking', 'sub_account': 501, 'sub_account_balance_begin': 4500.0, 'check_funds_message': 'Sufficient funds available in client account to complete client transaction, proceed execute transaction.', 'flag_sufficient_funds': True})]
+1556149132.813757[(8.3, {'transfer_to_account': 102, 'to_sub_account_type': None, 'transfer_account_message': 'Provided transfer destination account type cannot be processed'})]
+1556149132.813766[(8.4, {'transfer_withdraw_message': 'Issue with transaction data, withdrawal transaction not completed.'})]
+1556149132.813775[(8.5, {'transfer_deposit_message': 'Issue with transaction data, transfer deposit not competed.'})]
+1556152898.942011[(8, {'check_user_message': 'User name confirmed.', 'flag_user': True, 'check_password_message': 'User password validated', 'flag_password': True, 'client_account': 101})]
+1556152898.942038[(8.1, 'T')]
+1556152898.942053[(8.2, {'tran_amount': 450.0, 'sub_account_type': 'checking', 'sub_account': 501, 'sub_account_balance_begin': 4500.0, 'check_funds_message': 'Sufficient funds available in client account to complete client transaction, proceed execute transaction.', 'flag_sufficient_funds': True})]
+1556152898.942064[(8.3, {'transfer_to_account': 102, 'to_sub_account_type': None, 'transfer_account_message': 'Provided transfer destination account type cannot be processed'})]
+1556152898.942073[(8.4, {'transfer_withdraw_message': 'Issue with transaction data, withdrawal transaction not completed.'})]
+1556152898.942082[(8.5, {'transfer_deposit_message': 'Issue with transaction data, transfer deposit not competed.'})]
+1556229647.454133(datetime.datetime(2019, 4, 25, 18, 0, 47, 453975), '|', 8.1, ':', {'username': 'teller1', 'password': 'teller', 'client_account': 101})
+1556229647.454166(datetime.datetime(2019, 4, 25, 18, 0, 47, 453975), '|', 8.2, ':', 'T')
+1556229647.454187(datetime.datetime(2019, 4, 25, 18, 0, 47, 453975), '|', 8.3, ':', {'tran_amount': 500.0, 'sub_account_type': 'checking', 'sub_account': '501', 'sub_account_balance_begin': '4500.0', 'check_funds_message': 'Sufficient funds available in client account to complete client transaction, proceed execute transaction.', 'flag_sufficient_funds': True})
+1556229647.454207(datetime.datetime(2019, 4, 25, 18, 0, 47, 453975), '|', 8.4, ':', {'transfer_to_account': 103, 'to_sub_account_type': 'checking', 'transfer_account_message': 'Transfer account confirmed.', 'transfer_sub_type_message': 'Transfer account sub type confirmed', 'flag_transfer_sub_account': True, 'check_transfer_flag': True})
+1556229647.454226(datetime.datetime(2019, 4, 25, 18, 0, 47, 453975), '|', 8.5, ':', {'transfer_withdraw_begin_balance': '4500.0', 'transfer_withdraw_end_balance': '4000.0', 'transfer_withdraw_message': 'Withdrawal from client account complete.'})
+1556229647.454244(datetime.datetime(2019, 4, 25, 18, 0, 47, 453975), '|', 8.6, ':', {'to_account_balance_beg': '1200.0', 'to_account_balance_end': '1700.0', 'transfer_deposit_message': 'Transfer deposit successful.'})
+1556231271.534725(1556231271.534523, 8.1, {'username': 'teller1', 'password': 'teller', 'client_account': 101})
+1556231271.534757(1556231271.534523, 8.2, 'T')
+1556231271.534786(1556231271.534523, 8.3, {'tran_amount': 460.0, 'sub_account_type': 'checking', 'sub_account': '501', 'sub_account_balance_begin': '4500.0', 'check_funds_message': 'Sufficient funds available in client account to complete client transaction, proceed execute transaction.', 'flag_sufficient_funds': True})
+1556231271.534814(1556231271.534523, 8.4, {'transfer_to_account': 102, 'to_sub_account_type': 'checking', 'transfer_account_message': 'Transfer account confirmed.', 'transfer_sub_type_message': 'Transfer account sub type confirmed', 'flag_transfer_sub_account': True, 'check_transfer_flag': True})
+1556231271.534839(1556231271.534523, 8.5, {'transfer_withdraw_begin_balance': '4500.0', 'transfer_withdraw_end_balance': '4040.0', 'transfer_withdraw_message': 'Withdrawal from client account complete.'})
+1556231271.534863(1556231271.534523, 8.6, {'to_account_balance_beg': '3500.0', 'to_account_balance_end': '3960.0', 'transfer_deposit_message': 'Transfer deposit successful.'})
+1556231939.487549(1556231939.487397, 8.1, {'username': 'bank1', 'password': 'bank1', 'client_account': 101})
+1556231939.48757(1556231939.487397, 8.2, 'T')
+1556231939.48759(1556231939.487397, 8.3, {'tran_amount': 470.0, 'sub_account_type': 'saving', 'sub_account': '601', 'sub_account_balance_begin': '5000.0', 'check_funds_message': 'Sufficient funds available in client account to complete client transaction, proceed execute transaction.', 'flag_sufficient_funds': True})
+1556231939.487607(1556231939.487397, 8.4, {'transfer_to_account': 103, 'to_sub_account_type': 'saving', 'transfer_account_message': 'Transfer account confirmed.', 'transfer_sub_type_message': 'Transfer account sub type confirmed', 'flag_transfer_sub_account': True, 'check_transfer_flag': True})
+1556231939.487623(1556231939.487397, 8.5, {'transfer_withdraw_begin_balance': '5000.0', 'transfer_withdraw_end_balance': '4530.0', 'transfer_withdraw_message': 'Withdrawal from client account complete.'})
+1556231939.487639(1556231939.487397, 8.6, {'to_account_balance_beg': '2300.0', 'to_account_balance_end': '2770.0', 'transfer_deposit_message': 'Transfer deposit successful.'})
+1556232194.227152(1556232194.226989, 8.1, {'user_account': 101, 'user_pin': 1234, 'client_account': 101})
+1556232194.227174(1556232194.226989, 8.2, 'T')
+1556232194.227196(1556232194.226989, 8.3, {'tran_amount': 906.0, 'sub_account_type': 'saving', 'sub_account': '601', 'sub_account_balance_begin': '5000.0', 'check_funds_message': 'Sufficient funds available in client account to complete client transaction, proceed execute transaction.', 'flag_sufficient_funds': True})
+1556232194.227215(1556232194.226989, 8.4, {'transfer_to_account': 102, 'to_sub_account_type': 'checking', 'transfer_account_message': 'Transfer account confirmed.', 'transfer_sub_type_message': 'Transfer account sub type confirmed', 'flag_transfer_sub_account': True, 'check_transfer_flag': True})
+1556232194.227233(1556232194.226989, 8.5, {'transfer_withdraw_begin_balance': '5000.0', 'transfer_withdraw_end_balance': '4094.0', 'transfer_withdraw_message': 'Withdrawal from client account complete.'})
+1556232194.227249(1556232194.226989, 8.6, {'to_account_balance_beg': '3500.0', 'to_account_balance_end': '4406.0', 'transfer_deposit_message': 'Transfer deposit successful.'})
