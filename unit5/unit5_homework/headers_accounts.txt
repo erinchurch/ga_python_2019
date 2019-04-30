@@ -1,1 +1,0 @@
-debit_card_number;checking_type;checking_account_number;checking_balance;saving_type;saving_account_number;saving_balance;name;username

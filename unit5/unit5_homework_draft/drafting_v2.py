@@ -194,8 +194,6 @@ def collect_update_for_file(fname, s_old_snip, s_new_snip):
     return line_position, s_original, s_new
 
 
-
-
 def update_account(fname, *args):
 
     #update_account_file = open(fname, "r+")
